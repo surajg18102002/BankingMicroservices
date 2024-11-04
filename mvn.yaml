@@ -1,17 +1,21 @@
 ---
 
-- name: install maven
+- name: Install Apache2
+  hosts: webserver
+  become: yes  # Use sudo to install packages
+  tasks:
+    - name: Update apt package index
+      apt:
+        update_cache: yes
 
-   hosts: 10.0.0.5
-
-   tasks:
-
-     - command: apt update
-
-     - apt:
-
-        name: maven
-
+    - name: Install Apache2
+      apt:
+        name: apache2
         state: present
 
+    - name: Start and enable Apache2 service
+      service:
+        name: apache2
+        state: started
+        enabled: yes
 
